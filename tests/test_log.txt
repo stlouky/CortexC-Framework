@@ -1,0 +1,6 @@
+[2024-10-19 22:53:18] [INFO] [test_logging] Toto je informační zpráva pro testování logování.
+[2024-10-19 22:53:18] [WARNING] [test_logging] Toto je varovná zpráva pro testování logování.
+[2024-10-19 22:53:18] [ERROR] [test_logging] Toto je chybová zpráva pro testování logování.
+[2024-10-19 22:53:30] [INFO] [test_logging] Toto je informační zpráva pro testování logování.
+[2024-10-19 22:53:30] [WARNING] [test_logging] Toto je varovná zpráva pro testování logování.
+[2024-10-19 22:53:30] [ERROR] [test_logging] Toto je chybová zpráva pro testování logování.

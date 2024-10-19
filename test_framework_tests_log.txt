@@ -1,0 +1,20 @@
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_EQ s úspěchem
+[2024-10-19 23:16:06] [INFO] [ASSERT_EQ] [PASS] ASSERT_EQ by měl projít pro hodnoty 5 a 5
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_EQ s úspěchem (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_EQ s chybou
+[2024-10-19 23:16:06] [ERROR] [ASSERT_EQ] [FAIL] ASSERT_EQ by měl selhat pro hodnoty 5 a 3: Očekávaná hodnota 5, ale získána 3
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_EQ s chybou (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_TRUE s úspěchem
+[2024-10-19 23:16:06] [INFO] [ASSERT_TRUE] [PASS] ASSERT_TRUE by měl projít pro hodnotu 1
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_TRUE s úspěchem (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_TRUE s chybou
+[2024-10-19 23:16:06] [ERROR] [ASSERT_TRUE] [FAIL] ASSERT_TRUE by měl selhat pro hodnotu 0: Podmínka je nepravdivá
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_TRUE s chybou (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_NULL s úspěchem
+[2024-10-19 23:16:06] [INFO] [ASSERT_NULL] [PASS] ASSERT_NULL by měl projít pro hodnotu NULL
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_NULL s úspěchem (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Spouštím test: Test ASSERT_NULL s chybou
+[2024-10-19 23:16:06] [ERROR] [ASSERT_NULL] [FAIL] ASSERT_NULL by měl selhat pro ne-NULL hodnotu: Ukazatel není NULL
+[2024-10-19 23:16:06] [INFO] [RUN_TEST] Konec testu: Test ASSERT_NULL s chybou (Čas: 0.01ms)
+[2024-10-19 23:16:06] [INFO] [TEST_RESULT] [SUMMARY] Testovací sada dokončena.
+[2024-10-19 23:16:06] [INFO] [TEST_RESULT] [RESULT] Úspěšné: 3, Neúspěšné: 3
