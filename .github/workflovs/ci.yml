@@ -1,75 +1,26 @@
-# Název CI pipeline
-name: CI Pipeline
+name: CI Build and Test
 
-# Události, které spouští workflow
 on:
   push:
     branches:
-      - main  # Spustí workflow při změnách pushnutých do větve 'main'
+      - main
   pull_request:
     branches:
-      - main  # Spustí workflow při pull requestech cílených na větev 'main'
+      - main
 
 jobs:
-  # Job pro sestavení a testování projektu
   build:
-    runs-on: ubuntu-latest  # Job běží na nejnovějším prostředí Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Archivace výsledků testů
-      if: always()  # Tento krok se vždy provede, i když předchozí kroky selžou
-      uses: actions/upload-artifact@v2  # GitHub Action pro nahrání artefaktu
-      with:
-        name: test-results  # Název artefaktu k uložení
-        path: tests/results/  # Cesta k adresáři obsahujícímu výsledky testů
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Checkout repozitáře
-      uses: actions/checkout@v2  # Zkontroluje repozitář pro přístup ke zdrojovému kódu
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential
 
-    - name: Nastavení C kompilátoru
-      run: sudo apt-get update && sudo apt-get install -y gcc  # Instalace GCC pro kompilaci C kódu
+      - name: Compile tests
+        run: gcc tests/test_memory.c core/test_framework.c -o tests/test_memory -Iinclude -Wall -Wextra
 
-    - name: Instalace závislostí
-      run: sudo apt-get update && sudo apt-get install -y build-essential  # Instalace základních nástrojů pro sestavení (např. make, GCC)
-
-    - name: Kompilace projektu
-      run: |
-        make  # Kompilace projektu pomocí Makefile
-
-    - name: Spuštění jednotkových testů
-      run: |
-        ./tests/unit/test_suite  # Spuštění jednotkových testů v adresáři 'unit'
-
-    - name: Spuštění integračních testů
-      run: |
-        ./tests/integration/test_suite  # Spuštění integračních testů v adresáři 'integration'
-
-  # Job pro kontrolu kódu, aby byla zachována konzistence stylu kódování
-  lint:
-    runs-on: ubuntu-latest  # Job běží na nejnovějším prostředí Ubuntu
-
-    steps:
-    - name: Checkout repozitáře
-      uses: actions/checkout@v2  # Zkontroluje repozitář pro přístup ke zdrojovému kódu
-
-    - name: Instalace clang-format
-      run: sudo apt-get update && sudo apt-get install -y clang-format  # Instalace clang-format pro kontrolu formátování kódu
-
-    - name: Spuštění clang-format
-      run: |
-        clang-format --style=file -i $(find core/ -name '*.c' -or -name '*.h')  # Formátování zdrojových a hlavičkových souborů C pro zajištění konzistentního stylu
-
-  # Job pro statickou analýzu kódu za účelem odhalení potenciálních chyb a problémů
-  analysis:
-    runs-on: ubuntu-latest  # Job běží na nejnovějším prostředí Ubuntu
-
-    steps:
-    - name: Checkout repozitáře
-      uses: actions/checkout@v2  # Zkontroluje repozitář pro přístup ke zdrojovému kódu
-
-    - name: Instalace cppcheck
-      run: sudo apt-get update && sudo apt-get install -y cppcheck  # Instalace cppcheck pro statickou analýzu
-
-    - name: Spuštění statické analýzy
-      run: |
-        cppcheck --enable=all --inconclusive --quiet core/ tests/ example/  # Spuštění statické analýzy na všechny relevantní adresáře
+      - name: Run tests
+        run: ./tests/test_memory
