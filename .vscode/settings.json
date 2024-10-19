@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "memory.h": "c",
+        "error_handler.h": "c"
+    }
+}
