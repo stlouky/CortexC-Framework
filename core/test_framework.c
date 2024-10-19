@@ -1,4 +1,11 @@
-#include "test_framework.h"
+#include "../include/test_framework.h"
+
+// Definice barev pro výstupy
+#define COLOR_RESET "\033[0m"
+#define COLOR_BLUE "\033[34m"
+#define COLOR_GREEN "\033[32m"
+#define COLOR_RED "\033[31m"
+
 #include <stdio.h>
 #include <time.h>
 
@@ -25,15 +32,16 @@ static int failed_tests = 0;  ///< Počítadlo neúspěšných testů
  * @param test_name Název testu, který je prováděn.
  */
 void RUN_TEST(void (*test_func)(), const char *test_name) {
-    printf("\033[34m[TIMER] Start: %s\033[0m\n", test_name);  // Modrá barva pro začátek měření času
+    printf("%s\n", test_name);
     clock_t start = clock();
 
     test_func();
 
     clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;  // Čas v milisekundách
-    printf("\033[34m[TIMER] Konec: %s (Čas: %.2fms)\033[0m\n", test_name, time_spent);  // Modrá barva pro konec měření času
+    double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+    printf("%s[INFO] Čas testu %s: %.2fms%s\n", COLOR_BLUE, test_name, time_spent, COLOR_RESET);
 }
+
 
 /**
  * @brief Ověření, že dvě celočíselné hodnoty jsou stejné.
@@ -46,11 +54,16 @@ void RUN_TEST(void (*test_func)(), const char *test_name) {
  * @param test_name Název testu, který je prováděn.
  */
 void ASSERT_EQ(int expected, int actual, const char *test_name) {
+    clock_t start = clock();
     if (expected == actual) {
-        printf("\033[32m[PASS] %s\033[0m\n", test_name);  // Zelená barva pro úspěch
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[PASS] %s - [%.2fms]%s\n", COLOR_GREEN, test_name, time_spent, COLOR_RESET);  // Zelená barva pro úspěch
         passed_tests++;
     } else {
-        printf("\033[31m[FAIL] %s: Očekávaná hodnota %d, ale získána %d\033[0m\n", test_name, expected, actual);  // Červená barva pro selhání
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[FAIL] %s: Očekávaná hodnota %d, ale získána %d - [%.2fms]%s\n", COLOR_RED, test_name, expected, actual, time_spent, COLOR_RESET);  // Červená barva pro selhání
         failed_tests++;
     }
 }
@@ -65,11 +78,16 @@ void ASSERT_EQ(int expected, int actual, const char *test_name) {
  * @param test_name Název testu, který je prováděn.
  */
 void ASSERT_TRUE(int condition, const char *test_name) {
+    clock_t start = clock();
     if (condition) {
-        printf("\033[32m[PASS] %s\033[0m\n", test_name);  // Zelená barva pro úspěch
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[PASS] %s - [%.2fms]%s\n", COLOR_GREEN, test_name, time_spent, COLOR_RESET);  // Zelená barva pro úspěch
         passed_tests++;
     } else {
-        printf("\033[31m[FAIL] %s: Podmínka je nepravdivá\033[0m\n", test_name);  // Červená barva pro selhání
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[FAIL] %s: Podmínka je nepravdivá - [%.2fms]%s\n", COLOR_RED, test_name, time_spent, COLOR_RESET);  // Červená barva pro selhání
         failed_tests++;
     }
 }
@@ -84,11 +102,16 @@ void ASSERT_TRUE(int condition, const char *test_name) {
  * @param test_name Název testu, který je prováděn.
  */
 void ASSERT_NULL(void *pointer, const char *test_name) {
+    clock_t start = clock();
     if (pointer == NULL) {
-        printf("\033[32m[PASS] %s\033[0m\n", test_name);  // Zelená barva pro úspěch
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[PASS] %s - [%.2fms]%s\n", COLOR_GREEN, test_name, time_spent, COLOR_RESET);  // Zelená barva pro úspěch
         passed_tests++;
     } else {
-        printf("\033[31m[FAIL] %s: Ukazatel není NULL\033[0m\n", test_name);  // Červená barva pro selhání
+        clock_t end = clock();
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+        printf("%s[FAIL] %s: Ukazatel není NULL - [%.2fms]%s\n", COLOR_RED, test_name, time_spent, COLOR_RESET);  // Červená barva pro selhání
         failed_tests++;
     }
 }
@@ -100,6 +123,12 @@ void ASSERT_NULL(void *pointer, const char *test_name) {
  * celkového provedení testovací sady.
  */
 void TEST_RESULT() {
-    printf("\033[34m[SUMMARY] Testovací sada dokončena.\033[0m\n");  // Modrá barva pro souhrn
-    printf("\033[34m[RESULT] Úspěšné: %d, Neúspěšné: %d\033[0m\n", passed_tests, failed_tests);  // Modrá barva pro výsledek
+    printf("\n   -------------\n");
+    printf("%s[SUMMARY] Konec testu%s\n", COLOR_BLUE, COLOR_RESET);  // Modrá barva pro souhrn
+    printf("%s[TESTŮ] celkem: %d  úspěšných: %d/%d%s\n", COLOR_BLUE, passed_tests + failed_tests, passed_tests, failed_tests, COLOR_RESET);  // Modrá barva pro výsledek
+    if (failed_tests == 0) {
+        printf("%s[RESULT] PASSED%s\n\n", COLOR_GREEN, COLOR_RESET);  // Zelená barva pro úspěch
+    } else {
+        printf("%s[RESULT] FAILED%s\n\n", COLOR_RED, COLOR_RESET);  // Červená barva pro selhání
+    }
 }
